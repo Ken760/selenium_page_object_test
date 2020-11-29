@@ -26,3 +26,7 @@ class ProductPageLocators():
     BOOK_PRICE_BASKET = (By.CSS_SELECTOR, "#messages>div:nth-child(3) strong")
     SUCCESS_MESSAGE = (By.CSS_SELECTOR, "#messages>div:nth-child(1)")
 
+
+class BasketPageLocators():
+    EMPTY_BASKET = (By.CSS_SELECTOR, ".basket-items")
+    EMPTY_BASKET_MESSAGE = (By.CSS_SELECTOR, "#content_inner p")
