@@ -20,6 +20,8 @@ parts/
 sdist/
 var/
 venv/
+.gitignore
+.gitattributes
 wheels/
 pip-wheel-metadata/
 share/python-wheels/
