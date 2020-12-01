@@ -5,6 +5,7 @@ import time
 import pytest
 import faker
 
+
 @pytest.mark.xfail(reason="wrong message")
 def test_guest_cant_see_success_message_after_adding_product_to_basket(browser):
     link = "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/"
@@ -32,6 +33,7 @@ def test_guest_should_see_login_link_on_product_page(browser):
     page.should_be_login_link()
 
 
+@pytest.mark.need_review
 def test_guest_can_go_to_login_page_from_product_page(browser):
     link = "http://selenium1py.pythonanywhere.com/en-gb/catalogue/the-city-and-the-stars_95/"
     page = ProductPage(browser, link)
@@ -39,6 +41,7 @@ def test_guest_can_go_to_login_page_from_product_page(browser):
     page.go_to_login_page()
 
 
+@pytest.mark.need_review
 def test_guest_cant_see_product_in_basket_opened_from_product_page(browser):
     link = "http://selenium1py.pythonanywhere.com/en-gb/catalogue/the-city-and-the-stars_95/"
     page = ProductPage(browser, link)
@@ -47,6 +50,16 @@ def test_guest_cant_see_product_in_basket_opened_from_product_page(browser):
     page2 = BasketPage(browser, browser.current_url)
     page2.is_basket_empty()
     page2.should_be_basket_empty_message()
+
+
+@pytest.mark.need_review
+def test_guest_can_add_product_to_basket(browser):
+    link = "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/"
+    product_page = ProductPage(browser, link)
+    product_page.open()
+    product_page.add_to_basket()
+    product_page.should_be_book_name()
+    product_page.should_be_book_price()
 
 
 class TestUserAddToBasketFromProductPage():
@@ -67,6 +80,7 @@ class TestUserAddToBasketFromProductPage():
         self.product_page.open()
         self.product_page.should_not_be_success_message()
 
+    @pytest.mark.need_review
     def test_user_can_add_product_to_basket(self, browser):
         link = "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/"
         self.product_page = ProductPage(browser, link)
