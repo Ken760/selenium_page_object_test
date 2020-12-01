@@ -3,7 +3,7 @@ from .pages.basket_page import BasketPage
 from .pages.login_page import LoginPage
 import time
 import pytest
-
+import faker
 
 @pytest.mark.xfail(reason="wrong message")
 def test_guest_cant_see_success_message_after_adding_product_to_basket(browser):
@@ -50,20 +50,30 @@ def test_guest_cant_see_product_in_basket_opened_from_product_page(browser):
 
 
 class TestUserAddToBasketFromProductPage():
-    def test_user_cant_see_success_message(browser):
-        link = "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/"
-        product_page = ProductPage(browser, link)
-        product_page.open()
-        product_page.should_not_be_success_message()
+    @pytest.fixture(scope="function", autouse=True)
+    def setup(self, browser):
+        link = "http://selenium1py.pythonanywhere.com/en-gb/accounts/login/"
+        self.login_page = LoginPage(browser, link)
+        self.login_page.open()
+        fake = faker.Faker()
+        email = fake.email()
+        password = fake.password()
+        self.login_page.register_new_user(email, password)
+        self.login_page.should_be_authorized_user()
 
-    def test_user_can_add_product_to_basket(browser):
+    def test_user_cant_see_success_message(self, browser):
         link = "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/"
-        product_page = ProductPage(browser, link)
-        product_page.open()
-        product_page.add_to_basket()
-        product_page.solve_quiz_and_get_code()
-        time.sleep(1)
-        product_page.should_not_be_success_message()
-        product_page.should_be_book_price()
+        self.product_page = ProductPage(browser, link)
+        self.product_page.open()
+        self.product_page.should_not_be_success_message()
 
+    def test_user_can_add_product_to_basket(self, browser):
+        link = "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/"
+        self.product_page = ProductPage(browser, link)
+        self.product_page.open()
+        self.product_page.add_to_basket()
+        # product_page.solve_quiz_and_get_code()
+        # time.sleep(120)
+        self.product_page.should_be_book_name()
+        self.product_page.should_be_book_price()
 
