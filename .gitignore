@@ -19,9 +19,6 @@ lib64/
 parts/
 sdist/
 var/
-venv/
-.gitignore
-.gitattributes
 wheels/
 pip-wheel-metadata/
 share/python-wheels/
@@ -53,7 +50,8 @@ coverage.xml
 *.py,cover
 .hypothesis/
 .pytest_cache/
-
+.gitattributes
+.gitignore
 # Translations
 *.mo
 *.pot
